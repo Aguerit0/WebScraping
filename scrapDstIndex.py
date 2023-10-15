@@ -17,5 +17,7 @@ data_values = [int(value) for value in re.findall(r'-?\d+', data_text)]
 # Dividimos los datos en sublistas para cada día
 day_length = 24
 all_day_data = [data_values[i:i+day_length] for i in range(26, len(data_values), day_length+1)]
-
-print(all_day_data)
+j=0
+for i in range(len(all_day_data)):
+    j=j+1
+    print('DÍA',j,':',all_day_data[i])
