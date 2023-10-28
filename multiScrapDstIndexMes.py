@@ -20,3 +20,5 @@ for j in range(12):
     all_day_data = [data_values[i:i + day_length] for i in range(26, len(data_values), day_length + 1)]
     for j in range(len(all_day_data)):
         print('DÍA', j + 1, ':', all_day_data[j])
+
+    df = pd.
