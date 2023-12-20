@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import pandas as pd
 
 url = 'https://wdc.kugi.kyoto-u.ac.jp/dst_final/201601/index.html'
 page = requests.get(url)
