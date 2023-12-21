@@ -36,7 +36,7 @@ print(dataframe)
 nombre = 'datos('+año+'-'+mes+').xlsx'
 
 # Exportar dataframe a excel
-dataframe.to_excel('exports/'+nombre, engine='openpyxl')
+dataframe.to_excel('exports/'+nombre, engine='openpyxl', sheet_name='Indice DsT')
 
 # Abrir archivo exportado
 dataframe = pd.read_excel('exports/'+nombre)
@@ -47,8 +47,39 @@ sns.heatmap(dataframe.T, cmap='YlOrRd')
 plt.xlabel('Dias')
 plt.ylabel('Horas')
 plt.title('MAPA DE CALOR: indice DsT')
-plt.show()
+#plt.show()
 
 # Grafico
-dataframe.plot.scatter(x='Columna_X', y='Columna_Y', title='Índice DST Scatter Plot')
-plt.show()
+#dataframe.plot.scatter(x='Columna_X', y='Columna_Y', title='Índice DST Scatter Plot')
+#lt.show()
+
+#Funcion para extraer dstIndex diario
+def tipoTormenta(all_day_data):
+    vector = []
+    vectorVerificar = []
+
+    for i in range(len(all_day_data)):
+        for j in range(len(all_day_data[i])):
+            if all_day_data[i][j] < -100:
+                vectorVerificar.append(2)
+            elif all_day_data[i][j]>-100 and all_day_data[i][j]<-50:
+                vectorVerificar.append(1)
+            else:
+                vectorVerificar.append(0)
+        if 2 in vectorVerificar:
+            vector.append("Intensa")
+        elif 1 in vectorVerificar:
+            vector.append("Moderada")
+        else:
+            vector.append("Debil")
+        vectorVerificar.clear()
+
+    # Creo un nuevo dataframe con el vector nuevo
+    tipoTormentaDataFrame = pd.DataFrame(vector)
+    tipoTormentaDataFrame.index +=1
+    tipoTormentaDataFrame.columns = [f'Año {año}']
+    with pd.ExcelWriter(f'exports/{nombre}', engine='openpyxl', mode='a') as writer:
+        tipoTormentaDataFrame.to_excel(writer, sheet_name='Tipo de Tormenta')
+
+
+tipoTormenta(all_day_data)
